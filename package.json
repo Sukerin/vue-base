@@ -21,6 +21,7 @@
   "devDependencies": {
     "element-ui":"^2.0.3",
     "mint-ui": "^2.2.9",
+    "vuetify": "^0.17.6",
     "axios": "^0.17.0",
     "qs":"^6.5.1",
     "autoprefixer": "^7.1.2",

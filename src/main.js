@@ -5,13 +5,13 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios'
 import 'mint-ui/lib/spinner/style.css'
-// import ElementUI from 'element-ui'
-// import 'element-ui/lib/theme-chalk/index.css'
 
-// Vue.use(ElementUI)
+import Vuetify from 'vuetify'
 
-// axios.defaults.headers.get['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
+// index.js or main.js
+import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
+
+Vue.use(Vuetify)
 Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
