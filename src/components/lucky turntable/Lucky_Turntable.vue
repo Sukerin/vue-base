@@ -5,7 +5,7 @@
     <canvas id="myCanvas01" width="200px" height="200px">抱歉！浏览器不支持。</canvas>
     <canvas id="myCanvas03" width="200px" height="200px">抱歉！浏览器不支持。</canvas>
     <canvas id="myCanvas02" width="150px" height="150px">抱歉！浏览器不支持。</canvas>
-    <button id="tupBtn" class="turnplatw_btn" @click="btnClick" :class="{ disabled: btnDisabled }"></button>
+    <button id="tupBtn" class="turnplatw_btn" @click="btnClick" :disabled="btnDisabled" ></button>
   </div>
 
 </template>
@@ -25,24 +25,25 @@
         notice: null,
         //按钮是否可以点击,false可以点击,true无法点击
         btnDisabled: false,
-        //
-        color: null,
-        info: null,
-        info1: null,
+        infoList: ["董二二", "  1000", "   10", "  500", "  100", " 李珊珊", "    1", "   20","33","11","111"],
+        color: ["#626262", "#787878", "rgba(0,0,0,0.5)", "#DCC722", "white", "#FF4350"],
+        info1: ['再接再厉', '      元', '     元', '  淘金币', '     元', '  淘金币', '     元', '  淘金币'],
+
       }
+    },
+    props: {
+      sliceInfoList: null,
     },
     computed: {
       degValue: function () {
         return 'rotate(' + this.angles + 'deg' + ')';
       }
     },
-    props: {},
-
     methods: {
       btnClick: function () {
-        if (this.clickNum >= 1) {
-          //可抽奖次数减一
-          this.clickNum = this.clickNum - 1;
+//        if (this.clickNum >= 1) {
+//          //可抽奖次数减一
+//          this.clickNum = this.clickNum - 1;
           //转盘旋转
           this.runCup();
           //转盘旋转过程“开始抽奖”按钮无法点击
@@ -51,13 +52,13 @@
           this.rotNum = this.rotNum + 1;
           //“开始抽奖”按钮无法点击恢复点击
           setTimeout(() => {
-            alert(this.notice);
+//            alert(this.notice);
             this.btnDisabled = false
-          }, 6000);
-        }
-        else {
-          alert("亲，抽奖次数已用光！");
-        }
+          }, 3000);
+//        }
+//        else {
+//          alert("亲，抽奖次数已用光！");
+//        }
       },
       //转盘旋转
       runCup: function () {
@@ -66,56 +67,20 @@
       },
       //各奖项对应的旋转角度及中奖公告内容
       probability: function () {
+        let sliceNum = this.infoList.length;
         //获取随机数
-        let num = parseInt(Math.random() * (7));
-        //概率
-        if (num === 0) {
-          this.angles = 2160 * this.rotNum + 1800;
-          this.notice = this.info[0] + this.info1[0];
-        }
-        //概率
-        else if (num === 1) {
-          this.angles = 2160 * this.rotNum + 1845;
-          this.notice = this.info[7] + this.info1[7];
-        }
-        //概率
-        else if (num === 2) {
-          this.angles = 2160 * this.rotNum + 1890;
-          this.notice = this.info[6] + this.info1[6];
-        }
-        //概率
-        else if (num === 3) {
-          this.angles = 2160 * this.rotNum + 1935;
-          this.notice = this.info[5] + this.info1[5];
-        }
-        //概率
-        else if (num === 4) {
-          this.angles = 2160 * this.rotNum + 1980;
-          this.notice = this.info[4] + this.info1[4];
-        }
-        //概率
-        else if (num === 5) {
-          this.angles = 2160 * this.rotNum + 2025;
-          this.notice = this.info[3] + this.info1[3];
-        }
-        //概率
-        else if (num === 6) {
-          this.angles = 2160 * this.rotNum + 2070;
-          this.notice = this.info[2] + this.info1[2];
-        }
-        //概率
-        else if (num === 7) {
-          this.angles = 2160 * this.rotNum + 2115;
-          this.notice = this.info[1] + this.info1[1];
-        }
+        let num = parseInt(Math.random() * (sliceNum - 1));
+
+        //角度为6圈加上转到的元素角度
+        this.angles = 2160 * this.rotNum + (1800+360 / sliceNum*(sliceNum-num));
+        this.notice = this.infoList[num]
+
       },
 
     },
     mounted () {
-      this.color = ["#626262", "#787878", "rgba(0,0,0,0.5)", "#DCC722", "white", "#FF4350"];
-      this.info = ["谢谢参与", "  1000", "   10", "  500", "  100", " 4999", "    1", "   20"];
-      this.info1 = ['再接再厉', '      元', '     元', '  淘金币', '     元', '  淘金币', '     元', '  淘金币'];
-
+      this.infoList=this.sliceInfoList||this.infoList;
+      let sliceNum = this.infoList.length;
 
       //绘制转盘
       let canvas = document.getElementById('myCanvas');
@@ -131,10 +96,10 @@
       let createCircle = () => {
         let startAngle = 0;//扇形的开始弧度
         let endAngle = 0;//扇形的终止弧度
-        //画一个8等份扇形组成的圆形
-        for (let i = 0; i < 10; i++) {
-          startAngle = Math.PI * (i / 5 - 1 / 10);
-          endAngle = startAngle + Math.PI * (1 / 5);
+        //画一个sliceNum等份扇形组成的圆形
+        for (let i = 0; i < sliceNum; i++) {
+          startAngle = Math.PI * (i / (sliceNum / 2) - 1 / sliceNum)+1.5*Math.PI;
+          endAngle = startAngle + Math.PI * (1 / (sliceNum / 2));
           ctx.save();
           ctx.beginPath();
           ctx.arc(150, 150, 100, startAngle, endAngle, false);
@@ -153,17 +118,17 @@
         ctx.textAlign = 'start';
         ctx.textBaseline = 'middle';
         ctx.fillStyle = this.color[3];
-        let step = 2 * Math.PI / 8;
-        for (let i = 0; i < 8; i++) {
+        let step = 2 * Math.PI / sliceNum;
+        for (let i = 0; i < sliceNum; i++) {
           ctx.save();
           ctx.beginPath();
           ctx.translate(150, 150);
           ctx.rotate(i * step);
           ctx.font = " 20px Microsoft YaHei";
           ctx.fillStyle = this.color[3];
-          ctx.fillText(this.info[i], -30, -115, 60);
+          ctx.fillText(this.infoList[i], -30, -115, 60);
           ctx.font = " 14px Microsoft YaHei";
-          ctx.fillText(this.info1[i], -30, -95, 60);
+//          ctx.fillText(this.info1[i], -30, -95, 60);
           ctx.closePath();
           ctx.restore();
         }
@@ -213,10 +178,10 @@
 
 <style scoped>
   * {
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     font-size: 16px;
-    font-family: "Microsoft YaHei";
+    font-family: "Microsoft YaHei", serif;
   }
 
   .turnplate_box {
@@ -252,7 +217,7 @@
     /*-ms-transform: transform 6s;*/
     /*-moz-transform: transform 6s;*/
     /*-webkit-transform: transform 6s;*/
-    transition: transform 6s;
+    transition: transform 3s;
     -o-transform-origin: 50% 50%;
     -ms-transform-origin: 50% 50%;
     -moz-transform-origin: 50% 50%;
