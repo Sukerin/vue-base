@@ -187,7 +187,7 @@
   .turnplate_box {
     width: 300px;
     height: 300px;
-    margin: 100px auto;
+    /*margin: 100px;*/
     position: relative;
   }
 
