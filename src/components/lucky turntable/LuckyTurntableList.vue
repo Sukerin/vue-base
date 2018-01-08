@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-btn  color="blue-grey" block @click="clickAll">GO!ALL!</v-btn>
-    <v-alert type="warning" v-model="isShowAlert">嘿嘿</v-alert>
+    <v-alert type="warning" v-model="isShowAlert">{{combinedNotice}}</v-alert>
     <div v-for="foodItemList in foodCategoryList">
       <lucky-turntable-item :sliceInfoList="foodItemList" @noticeEmit="combineNotice">
       </lucky-turntable-item>
@@ -38,10 +38,10 @@
     methods:{
       combineNotice:function (notice) {
         this.isShowAlert=true;
-        debugger
         return this.combinedNotice=this.combinedNotice+notice;
       },
       clickAll:function () {
+        this.combinedNotice="";
         for(let i=0;i<this.$children.length;i++){
           if(this.$children[i].$el.className==="turnplate_box"){
             this.$children[i].btnClick();
