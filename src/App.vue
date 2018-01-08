@@ -9,7 +9,7 @@
       <v-list dense>
         <v-list-tile @click="gotoTurnTable">
           <v-list-tile-action>
-            <v-icon>explore</v-icon>
+            <v-icon>camera</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>转盘</v-list-tile-title>
@@ -53,7 +53,7 @@
     },
     methods: {
       gotoTurnTable: function () {
-        this.$router.push("luckyTurntable");
+        this.$router.push("LuckyTurntableList");
       }
     }
   }

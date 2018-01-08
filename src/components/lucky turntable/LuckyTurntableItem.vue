@@ -1,18 +1,17 @@
 <template>
 
   <div class="turnplate_box">
-    <canvas id="myCanvas" width="300px" height="300px" v-bind:style="{ transform:degValue }">抱歉！浏览器不支持。</canvas>
-    <canvas id="myCanvas01" width="200px" height="200px">抱歉！浏览器不支持。</canvas>
-    <canvas id="myCanvas03" width="200px" height="200px">抱歉！浏览器不支持。</canvas>
-    <canvas id="myCanvas02" width="150px" height="150px">抱歉！浏览器不支持。</canvas>
-    <button id="tupBtn" class="turnplatw_btn" @click="btnClick" :disabled="btnDisabled" ></button>
+    <canvas class="myCanvas" ref="myCanvas" width="300px" height="300px" v-bind:style="{ transform:degValue }">抱歉！浏览器不支持。</canvas>
+    <canvas class="myCanvas01" ref="myCanvas01" width="200px" height="200px">抱歉！浏览器不支持。</canvas>
+    <canvas class="myCanvas03" ref="myCanvas03" width="200px" height="200px">抱歉！浏览器不支持。</canvas>
+    <canvas class="myCanvas02" ref="myCanvas02" width="150px" height="150px">抱歉！浏览器不支持。</canvas>
+    <button class="turnplatw_btn" @click="btnClick" :disabled="btnDisabled" ></button>
   </div>
 
 </template>
 
 <script>
   export default{
-    name: 'lucky_turntable',
     data () {
       return {
         //旋转角度
@@ -25,7 +24,7 @@
         notice: null,
         //按钮是否可以点击,false可以点击,true无法点击
         btnDisabled: false,
-        infoList: ["董二二", "  1000", "   10", "  500", "  100", " 李珊珊", "    1", "   20","33","11","111"],
+        infoList: this.sliceInfoList||["dr", "  1000", "   10", "  500", "  100", " 33", "    1", "   20","33","11","111"],
         color: ["#626262", "#787878", "rgba(0,0,0,0.5)", "#DCC722", "white", "#FF4350"],
         info1: ['再接再厉', '      元', '     元', '  淘金币', '     元', '  淘金币', '     元', '  淘金币'],
 
@@ -54,6 +53,7 @@
           setTimeout(() => {
 //            alert(this.notice);
             this.btnDisabled = false
+            this.$emit("noticeEmit",this.notice)
           }, 3000);
 //        }
 //        else {
@@ -79,14 +79,15 @@
 
     },
     mounted () {
-      this.infoList=this.sliceInfoList||this.infoList;
+//      this.infoList=this.sliceInfoList||this.infoList;
       let sliceNum = this.infoList.length;
 
       //绘制转盘
-      let canvas = document.getElementById('myCanvas');
-      let canvas01 = document.getElementById('myCanvas01');
-      let canvas03 = document.getElementById('myCanvas03');
-      let canvas02 = document.getElementById('myCanvas02');
+      let canvas = this.$refs.myCanvas;
+      let canvas01 = this.$refs.myCanvas01;
+      let canvas03 = this.$refs.myCanvas03;
+      let canvas02 = this.$refs.myCanvas02;
+
       let ctx = canvas.getContext('2d');
       let ctx1 = canvas01.getContext('2d');
       let ctx3 = canvas03.getContext('2d');
@@ -156,7 +157,7 @@
         ctx3.textBaseline = 'middle';
         ctx3.fillStyle = this.color[4];
         ctx3.beginPath();
-        ctx3.fillText('开始', 80, 90, 40);
+        ctx3.fillText('READY,', 80, 90, 40);
         ctx3.fillText('GO！', 80, 110, 40);
         ctx3.fill();
         ctx3.closePath();
@@ -195,24 +196,24 @@
     position: absolute;
   }
 
-  #myCanvas {
+  .myCanvas {
     background-color: white;
     border-radius: 100%;
   }
 
-  #myCanvas01, #myCanvas03 {
+  .myCanvas01, .myCanvas03 {
     left: 50px;
     top: 50px;
     z-index: 30;
   }
 
-  #myCanvas02 {
+  .myCanvas02 {
     left: 75px;
     top: 75px;
     z-index: 20;
   }
 
-  #myCanvas {
+  .myCanvas {
     /*-o-transform: transform 6s;*/
     /*-ms-transform: transform 6s;*/
     /*-moz-transform: transform 6s;*/
