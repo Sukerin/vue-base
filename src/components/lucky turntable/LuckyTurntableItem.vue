@@ -1,11 +1,11 @@
 <template>
 
-  <div class="turnplate_box">
+  <div class="turntable">
     <canvas class="myCanvas" ref="myCanvas" width="300px" height="300px" v-bind:style="{ transform:degValue }">抱歉！浏览器不支持。</canvas>
     <canvas class="myCanvas01" ref="myCanvas01" width="200px" height="200px">抱歉！浏览器不支持。</canvas>
     <canvas class="myCanvas03" ref="myCanvas03" width="200px" height="200px">抱歉！浏览器不支持。</canvas>
     <canvas class="myCanvas02" ref="myCanvas02" width="150px" height="150px">抱歉！浏览器不支持。</canvas>
-    <button class="turnplatw_btn" @click="btnClick" :disabled="btnDisabled" ></button>
+    <button class="turntable_btn" @click="btnClick" :disabled="btnDisabled" ></button>
   </div>
 
 </template>
@@ -185,14 +185,14 @@
     font-family: "Microsoft YaHei", serif;
   }
 
-  .turnplate_box {
+  .turntable {
     width: 300px;
     height: 300px;
     /*margin: 100px;*/
     position: relative;
   }
 
-  .turnplate_box canvas {
+  .turntable canvas {
     position: absolute;
   }
 
@@ -226,7 +226,7 @@
     transform-origin: 50% 50%;
   }
 
-  .turnplatw_btn {
+  .turntable_btn {
     width: 60px;
     height: 60px;
     left: 120px;
