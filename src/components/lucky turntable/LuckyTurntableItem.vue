@@ -28,13 +28,14 @@
         btnDisabled: false,
 
         color: ["#626262", "#787878", "rgba(0,0,0,0.5)", "#DCC722", "white", "#ff5f67"],
-        rainbowColor: ["#FF9800", "#FFEB3B", "#8BC34A", "#26C6DA", "#2196F3", "#AB47BC"]
+        rainbowColor: ["#FF9800", "#FFEB3B", "#8BC34A", "#26C6DA", "#2196F3", "#AB47BC"],
+//        clickImgSrc: require('../../assets/mouse_left_click.png')
       }
     },
     props: {
       sliceInfoList: {
         type: Array,
-        default:  ["dr", "  1000", "   10", "  500", "  100", " 33", "    1", "   20", "33", "11", "111"]
+        default:  ["嘻", "嘻","哈","哈","过","大","年"]
       },
 
     },
@@ -167,6 +168,12 @@
         ctx3.fillText('READY,', 80, 90, 40);
         ctx3.fillText('GO！', 80, 110, 40);
         ctx3.fill();
+//        let clickImg = new Image(); // HTML5 构造器
+//        clickImg.src = this.clickImgSrc;
+//        clickImg.onload = function() {
+//          let pattern=ctx3.createPattern(clickImg, "no-repeat");
+//          ctx3.fillStyle = pattern;
+//        };
         ctx3.closePath();
         //中间圆圈
         ctx2.beginPath();
