@@ -60,7 +60,7 @@
     },
     mounted(){
       this.init();
-      this.foodRawData = "西瓜,黄瓜,冬瓜;鸡肉,牛肉,猪肉";
+      this.foodRawData = "西瓜,黄瓜,冬瓜,苦瓜,甜瓜,南瓜,地瓜;鸡肉,牛肉,猪肉";
     },
     components: {LuckyTurntableItem},
 

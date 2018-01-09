@@ -27,8 +27,8 @@
         //按钮是否可以点击,false可以点击,true无法点击
         btnDisabled: false,
 
-        color: ["#626262", "#787878", "rgba(0,0,0,0.5)", "#DCC722", "white", "#FF4350"],
-        rainbowColor: ["#FF9800", "#FFEB3B", "#8BC34A", "#26C6DA", "#2196F3", "#9C27B0"]
+        color: ["#626262", "#787878", "rgba(0,0,0,0.5)", "#DCC722", "white", "#ff5f67"],
+        rainbowColor: ["#FF9800", "#FFEB3B", "#8BC34A", "#26C6DA", "#2196F3", "#AB47BC"]
       }
     },
     props: {
@@ -102,15 +102,20 @@
         let startAngle = 0;//扇形的开始弧度
         let endAngle = 0;//扇形的终止弧度
         //画一个sliceNum等份扇形组成的圆形
-        let rainBowColorStartIndex = parseInt(Math.random() * 6);
-        for (let i = 0; i < sliceNum; i++) {
+        for (let j = 0; j < sliceNum; j++) {
+          let i;
+          if(j%2===1){
+            i=this.sliceInfoList.length-1-parseInt(j/2);
+          }else {
+            i=j/2;
+          }
           startAngle = Math.PI * (i / (sliceNum / 2) - 1 / sliceNum) + 1.5 * Math.PI;
           endAngle = startAngle + Math.PI * (1 / (sliceNum / 2));
           ctx.save();
           ctx.beginPath();
           ctx.arc(150, 150, 100, startAngle, endAngle, false);
           ctx.lineWidth = 120;
-          ctx.strokeStyle = this.rainbowColor[(i + rainBowColorStartIndex) % this.rainbowColor.length];
+          ctx.strokeStyle = this.rainbowColor[j% this.rainbowColor.length];
           ctx.stroke();
           ctx.restore();
         }
@@ -127,7 +132,6 @@
           ctx.translate(150, 150);
           ctx.rotate(i * step);
           ctx.font = "Bold 20px Microsoft YaHei";
-//          ctx.fontWeight="900";
           ctx.fillStyle = "#424242";
 
           ctx.fillText(this.sliceInfoList[i], -30, -115, 60);
@@ -217,10 +221,6 @@
   }
 
   .myCanvas {
-    /*-o-transform: transform 6s;*/
-    /*-ms-transform: transform 6s;*/
-    /*-moz-transform: transform 6s;*/
-    /*-webkit-transform: transform 6s;*/
     transition: transform 3s;
     -o-transform-origin: 50% 50%;
     -ms-transform-origin: 50% 50%;
