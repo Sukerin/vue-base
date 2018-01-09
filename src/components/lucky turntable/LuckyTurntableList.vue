@@ -1,14 +1,16 @@
 <template>
+  <v-layout justify-center align-center>
   <div>
-    <v-btn color="blue-grey" block @click="clickAll">GO!ALL!</v-btn>
-    <v-alert type="warning" v-model="isShowAlert" transition="scale-transition">{{combinedNotice}}</v-alert>
-
+    <v-btn color="blue" v-if="!isShowAlert" block @click="clickAll">GO!ALL!</v-btn>
+    <v-alert type="warning" dismissible v-model="isShowAlert" transition="scale-transition">{{combinedNotice}}</v-alert>
+    <!--<lucky-turntable-item ref="turntable" :sliceInfoList="foodItemList" @noticeEmit="combineNotice">-->
+    <!--</lucky-turntable-item>-->
     <div v-for="foodItemList in foodCategoryList">
       <lucky-turntable-item ref="turntable" :sliceInfoList="foodItemList" @noticeEmit="combineNotice">
       </lucky-turntable-item>
     </div>
   </div>
-
+  </v-layout>
 </template>
 
 <script>
@@ -20,7 +22,7 @@
       return {
         isShowAlert: false,
         foodRawData: null,
-        combinedNotice: "",
+        combinedNotice: null,
       }
     },
     computed: {
@@ -38,22 +40,26 @@
     methods: {
       combineNotice: function (notice) {
         this.isShowAlert = true;
-        return this.combinedNotice = this.combinedNotice + notice;
+        if(this.combinedNotice==="今日菜谱："){
+          this.combinedNotice = this.combinedNotice+ notice;
+        }else {
+          this.combinedNotice = this.combinedNotice+"、" + notice;
+        }
       },
       clickAll: function () {
-        this.clear();
-        for(let i=0;i<this.$refs.turntable.length;i++){
+        this.init();
+        for (let i = 0; i < this.$refs.turntable.length; i++) {
           this.$refs.turntable[i].btnClick();
         }
       },
-      clear(){
+      init(){
         this.isShowAlert = false;
-        this.combinedNotice = "";
+        this.combinedNotice = "今日菜谱：";
       },
 
     },
     mounted(){
-      this.clear();
+      this.init();
       this.foodRawData = "西瓜,黄瓜,冬瓜;鸡肉,牛肉,猪肉";
     },
     components: {LuckyTurntableItem},
@@ -62,4 +68,3 @@
 </script>
 
 
-<!--西瓜,黄瓜,冬瓜;鸡肉,牛肉,猪肉-->

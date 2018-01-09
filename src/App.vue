@@ -31,14 +31,12 @@
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height class="lighten-4">
-          <v-layout justify-center align-center>
             <router-view>
             </router-view>
-          </v-layout>
       </v-container>
     </v-content>
     <v-footer app fixed>
-      <span>&copy; 2017 Sukerin</span>
+      <span>&copy; 2018 Sukerin</span>
     </v-footer>
   </v-app>
 </template>

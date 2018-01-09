@@ -1,11 +1,13 @@
 <template>
 
   <div class="turntable">
-    <canvas class="myCanvas" ref="myCanvas" width="300px" height="300px" v-bind:style="{ transform:degValue }">抱歉！浏览器不支持。</canvas>
+    <canvas class="myCanvas" ref="myCanvas" width="300px" height="300px" v-bind:style="{ transform:degValue }">
+      抱歉！浏览器不支持。
+    </canvas>
     <canvas class="myCanvas01" ref="myCanvas01" width="200px" height="200px">抱歉！浏览器不支持。</canvas>
     <canvas class="myCanvas03" ref="myCanvas03" width="200px" height="200px">抱歉！浏览器不支持。</canvas>
     <canvas class="myCanvas02" ref="myCanvas02" width="150px" height="150px">抱歉！浏览器不支持。</canvas>
-    <button class="turntable_btn" @click="btnClick" :disabled="btnDisabled" ></button>
+    <button class="turntable_btn" @click="btnClick" :disabled="btnDisabled"></button>
   </div>
 
 </template>
@@ -24,14 +26,17 @@
         notice: null,
         //按钮是否可以点击,false可以点击,true无法点击
         btnDisabled: false,
-        infoList: this.sliceInfoList||["dr", "  1000", "   10", "  500", "  100", " 33", "    1", "   20","33","11","111"],
-        color: ["#626262", "#787878", "rgba(0,0,0,0.5)", "#DCC722", "white", "#FF4350"],
-        info1: ['再接再厉', '      元', '     元', '  淘金币', '     元', '  淘金币', '     元', '  淘金币'],
 
+        color: ["#626262", "#787878", "rgba(0,0,0,0.5)", "#DCC722", "white", "#FF4350"],
+        rainbowColor: ["#FF9800", "#FFEB3B", "#8BC34A", "#26C6DA", "#2196F3", "#9C27B0"]
       }
     },
     props: {
-      sliceInfoList: null,
+      sliceInfoList: {
+        type: Array,
+        default:  ["dr", "  1000", "   10", "  500", "  100", " 33", "    1", "   20", "33", "11", "111"]
+      },
+
     },
     computed: {
       degValue: function () {
@@ -43,18 +48,18 @@
 //        if (this.clickNum >= 1) {
 //          //可抽奖次数减一
 //          this.clickNum = this.clickNum - 1;
-          //转盘旋转
-          this.runCup();
-          //转盘旋转过程“开始抽奖”按钮无法点击
-          this.btnDisabled = true
-          //旋转次数加一
-          this.rotNum = this.rotNum + 1;
-          //“开始抽奖”按钮无法点击恢复点击
-          setTimeout(() => {
+        //转盘旋转
+        this.runCup();
+        //转盘旋转过程“开始抽奖”按钮无法点击
+        this.btnDisabled = true
+        //旋转次数加一
+        this.rotNum = this.rotNum + 1;
+        //“开始抽奖”按钮无法点击恢复点击
+        setTimeout(() => {
 //            alert(this.notice);
-            this.btnDisabled = false
-            this.$emit("noticeEmit",this.notice)
-          }, 3000);
+          this.btnDisabled = false
+          this.$emit("noticeEmit", this.notice)
+        }, 3000);
 //        }
 //        else {
 //          alert("亲，抽奖次数已用光！");
@@ -67,20 +72,19 @@
       },
       //各奖项对应的旋转角度及中奖公告内容
       probability: function () {
-        let sliceNum = this.infoList.length;
+        let sliceNum = this.sliceInfoList.length;
         //获取随机数
         let num = parseInt(Math.random() * (sliceNum - 1));
 
         //角度为6圈加上转到的元素角度
-        this.angles = 2160 * this.rotNum + (1800+360 / sliceNum*(sliceNum-num));
-        this.notice = this.infoList[num]
+        this.angles = 2160 * this.rotNum + (1800 + 360 / sliceNum * (sliceNum - num));
+        this.notice = this.sliceInfoList[num]
 
       },
 
     },
     mounted () {
-//      this.infoList=this.sliceInfoList||this.infoList;
-      let sliceNum = this.infoList.length;
+      let sliceNum = this.sliceInfoList.length;
 
       //绘制转盘
       let canvas = this.$refs.myCanvas;
@@ -98,18 +102,15 @@
         let startAngle = 0;//扇形的开始弧度
         let endAngle = 0;//扇形的终止弧度
         //画一个sliceNum等份扇形组成的圆形
+        let rainBowColorStartIndex = parseInt(Math.random() * 6);
         for (let i = 0; i < sliceNum; i++) {
-          startAngle = Math.PI * (i / (sliceNum / 2) - 1 / sliceNum)+1.5*Math.PI;
+          startAngle = Math.PI * (i / (sliceNum / 2) - 1 / sliceNum) + 1.5 * Math.PI;
           endAngle = startAngle + Math.PI * (1 / (sliceNum / 2));
           ctx.save();
           ctx.beginPath();
           ctx.arc(150, 150, 100, startAngle, endAngle, false);
           ctx.lineWidth = 120;
-          if (i % 2 === 0) {
-            ctx.strokeStyle = this.color[0];
-          } else {
-            ctx.strokeStyle = this.color[1];
-          }
+          ctx.strokeStyle = this.rainbowColor[(i + rainBowColorStartIndex) % this.rainbowColor.length];
           ctx.stroke();
           ctx.restore();
         }
@@ -125,10 +126,12 @@
           ctx.beginPath();
           ctx.translate(150, 150);
           ctx.rotate(i * step);
-          ctx.font = " 20px Microsoft YaHei";
-          ctx.fillStyle = this.color[3];
-          ctx.fillText(this.infoList[i], -30, -115, 60);
-          ctx.font = " 14px Microsoft YaHei";
+          ctx.font = "Bold 20px Microsoft YaHei";
+//          ctx.fontWeight="900";
+          ctx.fillStyle = "#424242";
+
+          ctx.fillText(this.sliceInfoList[i], -30, -115, 60);
+//          ctx.font = " 14px Microsoft YaHei";
 //          ctx.fillText(this.info1[i], -30, -95, 60);
           ctx.closePath();
           ctx.restore();
@@ -204,13 +207,13 @@
   .myCanvas01, .myCanvas03 {
     left: 50px;
     top: 50px;
-    z-index: 30;
+    z-index: 3;
   }
 
   .myCanvas02 {
     left: 75px;
     top: 75px;
-    z-index: 20;
+    z-index: 2;
   }
 
   .myCanvas {
@@ -237,7 +240,7 @@
     border: none;
     background: transparent;
     outline: none;
-    z-index: 40;
+    z-index: 4;
   }
 
 </style>
