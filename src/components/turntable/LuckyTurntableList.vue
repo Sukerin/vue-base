@@ -15,7 +15,7 @@
 </template>
 
 <script>
-  import LuckyTurntableItem from "../lucky turntable/LuckyTurntableItem.vue"
+  import LuckyTurntableItem from "../turntable/LuckyTurntableItem.vue"
 
   import fetch from "../../util/fetch"
 
