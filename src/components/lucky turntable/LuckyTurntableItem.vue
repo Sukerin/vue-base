@@ -29,7 +29,6 @@
 
         color: ["#626262", "#787878", "rgba(0,0,0,0.5)", "#DCC722", "white", "#ff5f67"],
         rainbowColor: ["#FF9800", "#FFEB3B", "#8BC34A", "#26C6DA", "#2196F3", "#AB47BC"],
-//        clickImgSrc: require('../../assets/mouse_left_click.png')
       }
     },
     props: {
