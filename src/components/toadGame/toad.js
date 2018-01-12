@@ -1,20 +1,24 @@
 /**
  * Created by dongrui3 on 2018/1/12.
  */
-import  utils from './utils';
+import  utils from './utils'
 
-
-const toad=function (path) {
-  let image=utils.imageFromPath(path);
+const toad = function (path) {
+  let image = utils.imageFromPath(path)
   // '../assets/images/toad.jpg'
-  let t={
-    image:image,
-    positionX:20,
-    positionY:20,
-    speed:10,
-    actions:{},
+  let t = {
+    image: image,
+    positionX: 20,
+    positionY: 20,
+    speed: 10,
+    moveRight: () => {
+      t.positionX += 10
+    },
+    moveLeft: () => {
+      t.positionX -= 10
+    },
   }
-  return t;
+  return t
 }
 
-export default toad;
+export default toad

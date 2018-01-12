@@ -16,8 +16,11 @@
       return {
         fps: 60,
         isStart: false,
-        canvasContext:null,
-
+        canvasContext: null,
+        canvas:null,
+        actions: {},
+        actionKeys: {},
+        toad:{},
       }
     },
     props: {
@@ -29,33 +32,54 @@
       },
     },
     methods: {
-      startGame: function () {
+      startGame: function() {
         this.isStart = true;
-        setInterval(function () {
+        let that=this;
+        setInterval(function() {
+
+          let keys = Object.keys(that.actions);
+          for (let i = 0; i < keys.length; i++) {
+            if (that.actionKeys[keys[i]]) {
+              that.actions[keys[i]]();
+            }
+          }
+//debugger
+          that.canvasContext.clearRect(0,0,that.canvas.width,that.canvas.height);
+          that.canvasContext.drawImage(that.toad.image, that.toad.positionX, that.toad.positionY, 20, 20);
 
         }, 1000 / this.fps)
       },
-      endGame: function () {
+      endGame: function() {
         this.isStart = false;
       },
-      registerAction: function (key, actionFunc) {
-        this.$refs.gameCanvas.$el.$on('keyDown', function (event) {
-          if (event.keyCode = key) {
-            actionFunc();
-          }
-        })
-      }
+//      registerAction: (key, actionFunc) => {
+//        this.actions[key.toString()] = actionFunc;
+////            this.actions.set(key,actionFunc)
+//      },
+     registerAction: function (keyy, actionFunc){
+        this.actions[keyy.toString()] = actionFunc;
+//            this.actions.set(key,actionFunc)
+      },
 
     },
-    mounted(){
-      let canvas = this.$refs.gameCanvas;
-      this.convasContext = canvas.getContext('2d');
-      let toad = Toad('/static/images/toad.jpg');
+    mounted:function () {
+      window.addEventListener('keydown', (event) => {
+        this.actionKeys[event.keyCode] = true;
+      })
+      window.addEventListener('keyup', (event) => {
+        this.actionKeys[event.keyCode] = false;
+      })
 
-      toad.image.onload =  () =>{
-        this.convasContext.drawImage(toad.image, toad.positionX, toad.positionY, 20, 20);
+      this.canvas = this.$refs.gameCanvas;
+      this.canvasContext = this.canvas.getContext('2d');
+      this.toad = Toad('/static/images/toad.jpg');
+
+      this.toad.image.onload = () => {
+        this.canvasContext.drawImage(this.toad.image, this.toad.positionX, this.toad.positionY, 20, 20);
       }
-
+      this.registerAction(65 , this.toad.moveLeft);
+      this.registerAction(68 , this.toad.moveRight);
+      this.startGame();
     },
 
   }
