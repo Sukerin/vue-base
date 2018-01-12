@@ -12,15 +12,15 @@
             <v-icon>camera</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>转盘</v-list-tile-title>
+            <v-list-tile-title>Turn Table</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="">
+        <v-list-tile @click="gotoToadGame">
           <v-list-tile-action>
-            <v-icon>settings</v-icon>
+            <v-icon>gamepad</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Settings</v-list-tile-title>
+            <v-list-tile-title>Toad Game</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -31,8 +31,10 @@
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height class="lighten-4">
+        <v-fade-transition mode="out-in">
             <router-view>
             </router-view>
+        </v-fade-transition>
       </v-container>
     </v-content>
     <v-footer app fixed>
@@ -52,7 +54,10 @@
     methods: {
       gotoTurnTable: function () {
         this.$router.push("LuckyTurntableList");
-      }
+      } ,
+      gotoToadGame: function () {
+        this.$router.push("ToadGame");
+      },
     }
   }
 </script>
