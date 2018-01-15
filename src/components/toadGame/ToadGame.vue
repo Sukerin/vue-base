@@ -4,23 +4,26 @@
       <canvas ref="gameCanvas" :width=gameWidth :height=gameHeight>
 
       </canvas>
+      <toad  ref="toadComponent" hidden></toad>
     </div>
   </v-layout>
 </template>
 
 <script>
-  import Toad from './toad';
+//  import Toad from './toad';
+  import Toad from './Toad.vue';
 
   export default{
+    components:{Toad},
     data(){
       return {
         fps: 60,
         isStart: false,
         canvasContext: null,
-        canvas:null,
+        canvas: null,
         actions: {},
         actionKeys: {},
-        toad:{},
+        toad: {},
       }
     },
     props: {
@@ -32,10 +35,12 @@
       },
     },
     methods: {
-      startGame: function() {
+
+      startGame: function () {
+
         this.isStart = true;
-        let that=this;
-        setInterval(function() {
+        let that = this;
+        setInterval(function () {
 
           let keys = Object.keys(that.actions);
           for (let i = 0; i < keys.length; i++) {
@@ -43,26 +48,26 @@
               that.actions[keys[i]]();
             }
           }
-//debugger
-          that.canvasContext.clearRect(0,0,that.canvas.width,that.canvas.height);
+
+          that.canvasContext.clearRect(0, 0, that.canvas.width, that.canvas.height);
           that.canvasContext.drawImage(that.toad.image, that.toad.positionX, that.toad.positionY, 20, 20);
 
         }, 1000 / this.fps)
       },
-      endGame: function() {
+      endGame: function () {
         this.isStart = false;
       },
-//      registerAction: (key, actionFunc) => {
-//        this.actions[key.toString()] = actionFunc;
-////            this.actions.set(key,actionFunc)
-//      },
-     registerAction: function (keyy, actionFunc){
+
+      registerAction: function (keyy, actionFunc) {
         this.actions[keyy.toString()] = actionFunc;
 //            this.actions.set(key,actionFunc)
       },
+      listenChildren: function () {
+        this.$on()
+      },
 
     },
-    mounted:function () {
+    mounted: function () {
       window.addEventListener('keydown', (event) => {
         this.actionKeys[event.keyCode] = true;
       })
@@ -72,13 +77,17 @@
 
       this.canvas = this.$refs.gameCanvas;
       this.canvasContext = this.canvas.getContext('2d');
-      this.toad = Toad('/static/images/toad.jpg');
 
-      this.toad.image.onload = () => {
-        this.canvasContext.drawImage(this.toad.image, this.toad.positionX, this.toad.positionY, 20, 20);
-      }
-      this.registerAction(65 , this.toad.moveLeft);
-      this.registerAction(68 , this.toad.moveRight);
+      this.toad=this.$refs.toadComponent;
+
+      this.canvasContext.drawImage(this.toad.$data.imagePath, this.toad.positionX, this.toad.positionY, 20, 20);
+
+
+      this.registerAction(65, this.toad.moveLeft);
+      this.registerAction(68, this.toad.moveRight);
+
+      this.registerAction(87, this.toad.moveUp);
+      this.registerAction(83, this.toad.moveDown);
       this.startGame();
     },
 

@@ -12,10 +12,18 @@ const toad = function (path) {
     positionY: 20,
     speed: 10,
     moveRight: () => {
+
       t.positionX += 10
     },
     moveLeft: () => {
       t.positionX -= 10
+    },
+
+    moveUp: () => {
+      t.positionY -= 10
+    },
+    moveDown: () => {
+      t.positionY += 10
     },
   }
   return t
