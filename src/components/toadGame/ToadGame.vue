@@ -10,7 +10,6 @@
 </template>
 
 <script>
-//  import Toad from './toad';
   import Toad from './Toad.vue';
 
   export default{

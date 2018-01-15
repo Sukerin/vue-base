@@ -18,8 +18,9 @@
           positionY: this.positionY,
 //          this.positionY,
         },
-        moveX:{
-
+        moveX: {
+          "moveRight": true,
+          "moveLeft": true,
         },
       }
     },
@@ -31,56 +32,51 @@
     },
     computed: {
       ...mapState({
-        // 箭头函数可使代码更简练
-        gameWidth: state => state.gameWidth,
-        gameHeight: state => state.gameHeight,
-
-//        // 传字符串参数 'count' 等同于 `state => state.count`
-//        countAlias: 'count',
-//
-//        // 为了能够使用 `this` 获取局部状态，必须使用常规函数
-//        countPlusLocalState (state) {
-//          return state.count + this.localCount
-//        }
-      }),
+          gameWidth: state => state.toad.gameWidth,
+          gameHeight: state => state.toad.gameHeight,
+        }
+      ),
     },
 
     methods: {
-      isOutOfGame:function (moveX) {
-         let returnFlag;
-        if(this.positionX>this.gameWidth||this.positionX<0) returnFlag= true;
-        if(this.positionY>this.gameHeight||this.positionY<0) returnFlag= true;
-        if(this.moveX[moveX]||this.moveX[moveX]===true) returnFlag= false;
-        return returnFlag;
+      resetMoveX:function () {
+        let keys=Object.keys(this.moveX);
+        for(let i=0;i<keys.length;i++){
+          this.moveX[keys[i]]=true;
+        }
+      },
+      setMoveX: function (moveX) {
+        this.resetMoveX();
+        this.moveX[moveX] = !(this.positionX > this.gameWidth || this.positionX < 0 ||
+        this.positionY > this.gameHeight || this.positionY < 0);
+
       },
       moveRight: function () {
-        if(this.isOutOfGame("moveRight")) {
-          this.moveX["moveRight"]=false;
-          return;
+        if (this.moveX["moveRight"]) {
+          this.positionX += 10
         }
-        this.positionX += 10
+        this.setMoveX("moveRight");
+
       },
       moveLeft: function () {
-        if(this.isOutOfGame("moveLeft")) {
-          this.moveX["moveLeft"]=false;
-          return;
+        if (this.moveX["moveLeft"]) {
+          this.positionX -= 10
         }
-        this.positionX -= 10
+        this.setMoveX("moveLeft");
       },
 
       moveUp: function () {
-        if(this.isOutOfGame("moveUp")) {
-          this.moveX["moveUp"]=false;
-          return;
+        if (this.moveX["moveUp"]) {
+          this.positionY -= 10
+
         }
-        this.positionY -= 10
+        this.setMoveX("moveUp");
       },
       moveDown: function () {
-        if(this.isOutOfGame("moveDown")) {
-          this.moveX["moveDown"]=false;
-          return;
+        if (this.moveX["moveDown"]) {
+          this.positionY += 10
         }
-        this.positionY += 10
+        this.setMoveX("moveDown");
       },
 
     },

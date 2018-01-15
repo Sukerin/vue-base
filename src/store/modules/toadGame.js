@@ -31,7 +31,7 @@ const mutations = {
 
 export default {
   state,
-  // getters,
+  getters,
   actions,
   mutations
 }
