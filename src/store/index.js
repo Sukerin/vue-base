@@ -1,16 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import toad from './modules/toadGame'
 
 
 Vue.use(Vuex)
 
 
 export default new Vuex.Store({
-  actions,
   modules: {
-    cart,
-    products
+    toad,
   },
-  strict: debug,
-  plugins: debug ? [createLogger()] : []
 })
