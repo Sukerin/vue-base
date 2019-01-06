@@ -32,7 +32,7 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/search/list': {
+      '/ret': {
         target: 'http://localhost',
         changeOrigin:true,
         charset:'utf-8'

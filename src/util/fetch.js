@@ -6,8 +6,9 @@ import axios from 'axios'
 import qs from 'qs'
 
 axios.defaults.timeout = 2000                       // 响应时间
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencodedcharset=UTF-8'           // 配置请求头
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencodedcharset=UTF-8'           // 配置请求头
 // axios.defaults.baseURL = '你的接口地址'   //配置接口地址
+axios.defaults.withCredentials = true
 // POST传参序列化(添加请求拦截器)
 axios.interceptors.request.use((config) => {
   // 在发送请求之前做某件事
@@ -36,6 +37,7 @@ const fetch = {
   byPost: function (url, params) {
     return new Promise((resolve, reject) => {
       axios.post(url, params).then(response => {
+        debugger
         resolve(response.data)
       }, err => {
         reject(err)

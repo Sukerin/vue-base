@@ -1,41 +1,67 @@
 <template>
-  <div>
-    <div class="touchweb-com_header header_flex search_show" v-on:keyup.enter='enterToProductList'>
+  <v-app id="inspire">
 
-      <a v-on:click="$router.go(-1)" class="left icon-back" style="display: block"></a>
-      <div class="search_wrap">
 
-        <div class="search_box focus">
-          <input class="search_txt" v-model="keyword" type="search" name="text" placeholder="搜索你想找的商品">
-        </div>
-        <router-link :to="{path: '/list', query: {keyword: keyword}}" class="btn_search">搜索</router-link>
-      </div>
+    <v-navigation-drawer
+      v-model="drawer"
+      fixed
+      app
+    >
+      <v-list dense>
+        <v-list-tile @click="gotoHomePage">
+          <v-list-tile-action>
+            <v-icon>home</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>首页</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="gotoInfoPage">
+          <v-list-tile-action>
+            <v-icon>info</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>关于</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
 
-    </div>
-    <div>
-      <router-view></router-view>
-    </div>
-  </div>
+
+    <v-toolbar color="indigo" dark fixed app>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-title>洞洞の神秘地带</v-toolbar-title>
+    </v-toolbar>
+    <v-content>
+      <v-container fluid fill-height>
+        <router-view></router-view>
+
+
+      </v-container>
+    </v-content>
+    <v-footer color="indigo" app>
+      <span class="white--text">&copy;Ret 2019</span>
+    </v-footer>
+  </v-app>
 </template>
+
 <script>
   export default {
-    name: 'app',
-    data () {
-      return {
-        keyword: this.$route.query.keyword ? this.$route.query.keyword : '',
-        pageNo: '1'
-      }
+    data: () => ({
+      drawer: null
+    }),
+
+    props: {
+      source: String
     },
     methods: {
-      enterToProductList: function () {
-        this.$router.push({path: '/list', query: {keyword: this.keyword}})
+      gotoHomePage: function (event) {
+        this.$router.push({path: '/home'})
+      },
+      gotoInfoPage: function (event) {
+        this.$router.push({path: '/info'})
       }
     }
+
   }
 </script>
-
-<style>
-  @import "./assets/public.css";
-  @import "./assets/searchList.css";
-
-</style>
